@@ -1,8 +1,8 @@
-#ifndef SCREEN_HPP_INCLUDED
-#define SCREEN_HPP_INCLUDED
+#ifndef LCD_HPP_INCLUDED
+#define LCD_HPP_INCLUDED
 
 
-#define PC
+//#define PC
 
 #include <wiringPi.h>
 #include <wiringShift.h>
@@ -40,7 +40,7 @@ using namespace std;
 
 class Lcd {
 	public: 
-		char texte[NB_CHAR + 1];
+		char *texte;
 		bool led;
 	public:
 		Lcd();
@@ -56,7 +56,7 @@ class Lcd {
 		void LcdClear(void);
 		void LcdInitialise(void);
 		void LcdString(char *characters);	
-		void LcdString2(string text);	
+		void LcdString(string text);	
 
 };
 
@@ -163,4 +163,4 @@ const uint8_t ASCII[][5] ={
 
 
 
-#endif // SCREEN_HPP_INCLUDED
+#endif // LCD_HPP_INCLUDED

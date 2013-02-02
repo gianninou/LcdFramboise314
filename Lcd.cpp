@@ -2,7 +2,7 @@
 
 
 Lcd::Lcd(){
-	texte;
+	texte= new char[NB_CHAR+1];
 	led = false;
 }
 
@@ -26,7 +26,7 @@ void Lcd::scheduler_standard() {
 
 void Lcd::log(string a){
 	//De/commenter pour ne pas/avoir les logs
-	cout << a << endl;
+	cout << "LOG : " <<a << endl;
 }
 
 
@@ -73,19 +73,22 @@ void Lcd::LcdInitialise(void){
 }
 
 void Lcd::LcdString(char *characters){
+  	int i=0;
   	while (*characters){
+  		log(""+i);
+  		i++;
     	LcdCharacter(*characters++);
   	}
 }
 
-void Lcd::LcdString2(string text){
+void Lcd::LcdString(string text){
   	for(int i=0;i<text.size();i++){
     	LcdCharacter(text[i]);
   	}
 }
 
 void Lcd::setText(char txt[]){
-	*texte=*txt;
+	texte=txt;
 }
 
 char* Lcd::getText(){
@@ -94,8 +97,7 @@ char* Lcd::getText(){
 
 #ifndef PC
 void Lcd::afficheText(){
-	LcdString("coucou");
-	//LcdString(texte);
+	LcdString(texte);
 }
 #endif
 
@@ -105,11 +107,13 @@ void Lcd::afficheText(){
 }
 #endif
 
+
+
 int main (int argc, char** argv){
 	Lcd lcd;
 
 
-#ifndef PC
+	#ifndef PC
 	if(wiringPiSetup() == -1){
         lcd.log("Librairie Wiring PI introuvable, veuillez lier cette librairie...");
         return -1;
@@ -117,7 +121,7 @@ int main (int argc, char** argv){
 	//lcd.scheduler_realtime();
 	lcd.LcdInitialise();
 	lcd.LcdClear();
-#endif
+	#endif
 
 
 	bool quitter=false;
@@ -125,7 +129,7 @@ int main (int argc, char** argv){
 
 	while(!quitter){
 
-		lcd.afficheText();
+		//lcd.afficheText();
 		cout << "entrer un choix : " << endl;
 		char choix;
 		
@@ -133,9 +137,9 @@ int main (int argc, char** argv){
 		cin.ignore( 1000, '\n' );
 
 
-#ifndef PC
+		#ifndef PC
 		lcd.LcdClear();
-#endif
+		#endif
 
 
 		//FILE *f = popen("/sbin/ifconfig eth0 | awk '/inet / {print $2}' | cut -d ':' -f2", "r");
@@ -165,10 +169,7 @@ int main (int argc, char** argv){
 			//	break;
 			case 'p':
 				cout << "Entrer votre texte : " << endl;
-				cin.getline(text,NB_CHAR+1);
-				cin.ignore(1000,'\n');
-				//cin.getline(text,NB_CHAR);
-				//cin >> text;
+				cin.getline(text,NB_CHAR);
 				lcd.setText(text);
 				lcd.afficheText();
 				break;
