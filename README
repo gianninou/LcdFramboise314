@@ -1,0 +1,10 @@
+
+Projet LcdFramboise314
+
+Ce projet a pour but de manipuler un écran de nokia 5110
+ainsi que des boutons et des leds via le Raspberri Pi.
+
+La classe Lcd regroupera toutes les methodes pour communiquer avec l'ecran.
+
+Merci a idleman pour son tuto a l'adresse : 
+	http://blog.idleman.fr/?p=1946
