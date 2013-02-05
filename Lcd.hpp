@@ -2,7 +2,10 @@
 #define LCD_HPP_INCLUDED
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3d8107fd53cce4dd639e51ac6489dc025cdf3ec7
 #include <wiringPi.h>
 #include <wiringShift.h>
 #include <iostream>
@@ -14,8 +17,11 @@
 #include <unistd.h>
 #include <sched.h> 
 #include <limits> 
+#include <vector>
 
 using namespace std;
+
+#define PC
 
 //define pin raspberry
 #define PIN_SCE   3
@@ -38,24 +44,41 @@ using namespace std;
 
 
 class Lcd {
-	public: 
+
+	private:
+		//attributs 
 		char *texte;
 		bool led;
 	public:
+		//constructeur
 		Lcd();
-		void setText(char txt[NB_CHAR+1]);
+
+		//getters
 		char* getText();
+
+		//setters
+		void setText(char txt[NB_CHAR+1]);
+
+		//affichage
 		void afficheText();
 
+		//reglage process
 		void scheduler_realtime();
 		void scheduler_standard();
+
+		//debug
 		void log(string a);
-		void LcdWrite(uint8_t dc, uint8_t data);
-		void LcdCharacter(char character);
-		void LcdClear(void);
-		void LcdInitialise(void);
-		void LcdString(char *characters);	
-		void LcdString(string text);	
+
+		//initialisation
+		void Clear(void);
+		void Initialise(void);
+
+		char* appelSystem(char* cmd,char *path="",bool rewrite=true);
+
+	private:
+		void Write(uint8_t dc, uint8_t data);
+		void Character(char character);
+		void String(char *characters);
 
 };
 
