@@ -73,7 +73,7 @@ class Lcd {
 		void Clear(void);
 		void Initialise(void);
 
-		char* appelSystem(char* cmd,char *path="",bool rewrite=true);
+		char* appelSystem(char* cmd,char *name="",bool rewrite=true);
 
 	private:
 		void Write(uint8_t dc, uint8_t data);
