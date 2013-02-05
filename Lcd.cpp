@@ -102,29 +102,33 @@ void Lcd::scheduler_standard() {
 char* Lcd::appelSystem(char* cmd,char * name,bool rewrite){
 	char commande[500];
 	strcpy(commande,cmd);
-	char *newName;
-
+	char *newName=new char[256];
 	if(strlen(name)==0){
+		log("edition du nom");
 	    //récuperation du nom de la commande
 		char *commande = strtok(cmd," ");
 		//construction du chemin pour le fichier
-		strcpy(newName,"cmd/");
+		//strcpy(newName,"cmd/");
 		strcat(newName,commande);
 		//strcat(newName,".rescmd");
 	}else{
+		log("copy du nom");
 		strcpy(newName,name);
 	}
 
 	if(fopen(newName,"r") && !rewrite){
+		log("NULL");
 		newName=NULL;
 	}else{
+		log("PAS NULL");
 		//envoie de la commande dans le path
-		strcat(commande," > ");
+		strcat(commande," > cmd/");
 		strcat(commande,newName);
 		//execution de la commande
 		system(commande);
 
 	}
+	cout << "fin appelSystem" << endl;
 	return newName;
 	
 }
@@ -134,12 +138,15 @@ int main (int argc, char** argv){
 
 	Lcd lcd;
 
-	char cmd[] = "arp -a";
-	char path[] = "";
-	char* file = lcd.appelSystem(cmd,path);
-	cout << "file : "<< (file==NULL?"Null":file) << endl;
-	FILE *fi = fopen(file,"r");
-	cout << "fi : "<< (fi==NULL?"Null":"bouhhh") << endl;
+
+	FILE *f;
+		
+	char os[20];
+	char reseau[256];
+	char hostname[256];
+	char cmd[256];
+	char path[256];
+	char* filePath;
 
 	#ifndef PC
 	if(wiringPiSetup() == -1){
@@ -170,16 +177,19 @@ int main (int argc, char** argv){
 		#endif
 
 
-		FILE *f = popen("/sbin/ifconfig wlan0 | awk '/inet / {print $2}' | cut -d ':' -f2", "r");
-		char os[20];
-		char reseau[256];
-		char hostname[256];
-		char* tmp;
 		switch(choix){
 			case 'r':
-				tmp = lcd.appelSystem(cmd,path);
+				cout << "Entrer une commande" << endl;
+				cin.getline(cmd,256);
+				cout << "Entrer un nom de fichier" << endl;
+				cin.getline(path,256);
+				filePath = lcd.appelSystem(cmd,path);
+				cout << filePath;
+				f = fopen(filePath,"r");
+
 				break;
 			case 'i':
+				f = popen("/sbin/ifconfig wlan0 | awk '/inet / {print $2}' | cut -d ':' -f2", "r");
 				while (!feof(f)) {
 				  	fread(os, 1, 20, f);
 				}
