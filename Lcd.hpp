@@ -1,11 +1,6 @@
 #ifndef LCD_HPP_INCLUDED
 #define LCD_HPP_INCLUDED
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 3d8107fd53cce4dd639e51ac6489dc025cdf3ec7
 #include <wiringPi.h>
 #include <wiringShift.h>
 #include <iostream>
