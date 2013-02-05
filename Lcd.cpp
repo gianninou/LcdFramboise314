@@ -64,7 +64,7 @@ void Lcd::LcdInitialise(void){
   	digitalWrite(PIN_RESET, LOW);
   	digitalWrite(PIN_RESET, HIGH);
   	LcdWrite(LCD_C, 0x21 );  // LCD Extended Commands.
-  	LcdWrite(LCD_C, 0x90 );  // Set LCD Vop (Contrast).
+  	LcdWrite(LCD_C, 0x98 );  // Set LCD Vop (Contrast).
   	LcdWrite(LCD_C, 0x04 );  // Set Temp coefficent. //0x04
   	LcdWrite(LCD_C, 0x14 );  // LCD bias mode 1:48. //0x13
   	LcdWrite(LCD_C, 0x0C );  // LCD in normal mode.
@@ -73,10 +73,7 @@ void Lcd::LcdInitialise(void){
 }
 
 void Lcd::LcdString(char *characters){
-  	int i=0;
   	while (*characters){
-  		log(""+i);
-  		i++;
     	LcdCharacter(*characters++);
   	}
 }

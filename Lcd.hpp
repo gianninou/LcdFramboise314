@@ -2,7 +2,6 @@
 #define LCD_HPP_INCLUDED
 
 
-//#define PC
 
 #include <wiringPi.h>
 #include <wiringShift.h>
