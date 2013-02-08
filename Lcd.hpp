@@ -35,7 +35,9 @@ using namespace std;
 #define LCD_Y     48
 
 //nombre de char affichable sur l ecran
-#define NB_CHAR   72
+#define NB_CHAR_LIGNE 	12
+#define NB_LIGNE 		6
+#define NB_CHAR   		NB_CHAR_LIGNE * NB_LIGNE
 
 
 class Lcd {
