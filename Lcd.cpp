@@ -72,12 +72,12 @@ void Lcd::String(char *characters){
 		tailleMot = strlen(pch); 
 		if(tailleTmp+tailleMot<NB_CHAR_LIGNE /*&& tailleMot<NB_CHAR_LIGNE*/){
 			printf ("%s ",pch);
-			tailleTmp=+tailleMot+1;	
+			tailleTmp+=tailleMot+1;	
 		}else if(tailleMot>NB_CHAR_LIGNE){
 			for(int i=0 ; i<tailleMot; i++){
 				printf("%c",pch[i]);
-				if(tailleTmp+i==NB_CHAR_LIGNE){
-					printf("*");
+				if(((tailleTmp+i+1)%NB_CHAR_LIGNE)==0){
+					printf("\n");
 				}	
 			}
 			
@@ -86,7 +86,7 @@ void Lcd::String(char *characters){
 
 		}else{
 			while(tailleTmp < NB_CHAR_LIGNE ){
-				printf("#");
+				printf(" ");
 				tailleTmp++;
 			}
 			printf("\n");

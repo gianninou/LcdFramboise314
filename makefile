@@ -2,7 +2,7 @@
 CC = g++
 
 #specification des options du compilateur
-CFLAGS = 
+CFLAGS = -Wall -ansi
 
 #nom de l executable
 PROG = Lcd
