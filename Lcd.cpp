@@ -1,5 +1,6 @@
 #include"Lcd.hpp"
 
+//branche testMiseEnForme
 
 //Constructeur
 Lcd::Lcd(){
