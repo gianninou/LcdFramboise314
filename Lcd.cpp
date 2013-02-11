@@ -63,22 +63,45 @@ void Lcd::String(char *characters){
 }
 #else
 void Lcd::String(char *characters){
-	char * pch;
+  	while (*characters){
+    	Character(*characters++);
+  	}
+}
+#endif
+
+list<char*> Lcd::miseEnForme(char *characters){
+	list<char*> res;
+	char ligne[NB_CHAR_LIGNE+1];
+	char * pch; 
 	pch = strtok (characters," ");
 	int tailleTmp=0;
 	int tailleMot=0;
+	log("debut");
 	while (pch != NULL)
 	{
+		
+		//cout << "mot : "<<pch<<endl;
 		tailleMot = strlen(pch); 
 		if(tailleTmp+tailleMot<NB_CHAR_LIGNE /*&& tailleMot<NB_CHAR_LIGNE*/){
-			printf ("%s ",pch);
+			//printf ("%s ",pch);
+			strcat(ligne," ");
+			strcat(ligne,pch);
 			tailleTmp+=tailleMot+1;	
 		}else if(tailleMot>NB_CHAR_LIGNE){
+			strcat(ligne," ");
 			for(int i=0 ; i<tailleMot; i++){
-				printf("%c",pch[i]);
+				//printf("%c",pch[i]);
 				if(((tailleTmp+i+1)%NB_CHAR_LIGNE)==0){
-					printf("\n");
-				}	
+					//printf("#");
+					strcat(ligne,"\0");
+					res.push_back(ligne);
+					ligne[0]='\0';
+				}
+				char charTmp[2];
+				charTmp[0]=pch[i];
+				charTmp[1]='\0';
+				strcat(ligne,charTmp);
+				//strcat(ligne,pch[i]);
 			}
 			
 			tailleTmp+=tailleMot;
@@ -86,11 +109,17 @@ void Lcd::String(char *characters){
 
 		}else{
 			while(tailleTmp < NB_CHAR_LIGNE ){
-				printf(" ");
+				//printf(" ");
+				strcat(ligne,"=");
 				tailleTmp++;
 			}
-			printf("\n");
-			printf("%s ",pch);
+			//printf("\n");
+			strcat(ligne,"\0");
+			res.push_back(ligne);
+			ligne[0]='\0';
+			//printf("%s ",pch);
+			strcat(ligne," ");
+			strcat(ligne,pch);
 			tailleTmp=tailleMot+1;
 		}
 		pch = strtok (NULL, " ,.-");
@@ -98,8 +127,8 @@ void Lcd::String(char *characters){
 
 
   	cout << "FIN" << endl;
+  	return res;
 }
-#endif
 
 
 void Lcd::setText(char txt[]){

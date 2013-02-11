@@ -8,11 +8,12 @@ int main (int argc, char** argv){
 	FILE *f;
 		
 	char os[20];
-	char reseau[256];
 	char hostname[256];
 	char cmd[256];
 	char path[256];
 	char* filePath;
+
+	list<char*> resultat;
 
 	#ifndef PC
 	if(wiringPiSetup() == -1){
@@ -29,6 +30,7 @@ int main (int argc, char** argv){
 	char text[NB_CHAR+1];
 
 	string str = "coucou comment tu va tu si tellement anticonstitutionnelement bien ?";
+	//string str = "coucou comment tu va tu si tellement bien ?";
 
 	while(!quitter){
 
@@ -82,7 +84,13 @@ int main (int argc, char** argv){
 				break;
 			case 't':
 				lcd.setText(const_cast<char*>(str.c_str()));
-				lcd.afficheText();
+				resultat = lcd.miseEnForme(const_cast<char*>(str.c_str()));
+				cout << "blabla" << endl;
+				while (!resultat.empty()){
+					cout << ' ' << resultat.front() << endl;
+					resultat.pop_front();
+				}
+				//lcd.afficheText();
 				break;	
 			case 'l':
 				if(digitalRead(PIN_LED_V)){

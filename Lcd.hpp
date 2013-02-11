@@ -13,6 +13,7 @@
 #include <sched.h> 
 #include <limits> 
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -72,10 +73,13 @@ class Lcd {
 
 		char* appelSystem(char* cmd,char *name="",bool rewrite=true);
 
+		
+		list<char*> miseEnForme(char *characters);
 	private:
 		void Write(uint8_t dc, uint8_t data);
 		void Character(char character);
 		void String(char *characters);
+
 
 };
 
