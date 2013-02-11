@@ -69,7 +69,7 @@ void Lcd::String(char *characters){
 }
 #endif
 
-list<char*> Lcd::miseEnForme(char *characters){
+list<char*> Lcd::miseEnForme(string str){
 	list<char*> res;
 	char ligne[NB_CHAR_LIGNE+1];
 	char * pch; 
