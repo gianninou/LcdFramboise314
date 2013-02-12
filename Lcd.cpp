@@ -70,6 +70,22 @@ void Lcd::String(char *characters){
 }
 #endif
 
+void Lcd::String(string txt){
+	for(unsigned int i=0;i<txt.size();i++){
+		Character(txt[i]);
+	}
+}
+
+void Lcd::afficheList(list<string> list){
+	string texte="";
+	for(int i=0;i<NB_LIGNE;i++){
+		texte += (string)list.front();
+		list.pop_front();
+	}
+	String(texte);
+
+}
+
 list<string> Lcd::miseEnForme(string str){
 	list<string> res;
 	istringstream iss(str);
@@ -89,7 +105,12 @@ list<string> Lcd::miseEnForme(string str){
 			//printf ("%s ",pch);
 			//strcat(ligne," ");
 			//strcat(ligne,pch);
-			ligne += " " + pch;
+			if(ligne.size()!=0){
+				ligne += " " + mot;	
+			}else{
+				ligne = mot;
+			}
+			
 			tailleTmp+=tailleMot+1;	
 		}else if(tailleMot>NB_CHAR_LIGNE){
 			//strcat(ligne," ");
@@ -106,7 +127,7 @@ list<string> Lcd::miseEnForme(string str){
 				//charTmp[0]=pch[i];
 				//charTmp[1]='\0';
 				//strcat(ligne,charTmp);
-				ligne +=  pch[i];
+				ligne +=  mot[i];
 				//strcat(ligne,pch[i]);
 			}
 			
@@ -127,7 +148,7 @@ list<string> Lcd::miseEnForme(string str){
 			//printf("%s ",pch);
 			//strcat(ligne," ");
 			//strcat(ligne,pch);
-			ligne += " " + pch;
+			ligne = mot;
 			tailleTmp=tailleMot+1;
 		}
 

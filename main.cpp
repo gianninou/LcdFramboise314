@@ -85,9 +85,9 @@ int main (int argc, char** argv){
 			case 't':
 				lcd.setText(const_cast<char*>(str.c_str()));
 				resultat = lcd.miseEnForme(const_cast<char*>(str.c_str()));
-				cout << "blabla" << endl;
+				lcd.afficheList(resultat);
 				while (!resultat.empty()){
-					cout << ' ' << resultat.front() << endl;
+					cout  << resultat.front() << endl;
 					resultat.pop_front();
 				}
 				//lcd.afficheText();

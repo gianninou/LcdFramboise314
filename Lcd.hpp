@@ -74,12 +74,13 @@ class Lcd {
 
 		char* appelSystem(char* cmd,char *name="",bool rewrite=true);
 
-		
 		list<string> miseEnForme(string str);
+		void afficheList(list<string> list);
 	private:
 		void Write(uint8_t dc, uint8_t data);
 		void Character(char character);
 		void String(char *characters);
+		void String(string txt);
 
 
 };
