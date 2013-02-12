@@ -70,38 +70,43 @@ void Lcd::String(char *characters){
 }
 #endif
 
-list<char*> Lcd::miseEnForme(string str){
-	list<char*> res;
-	char ligne[NB_CHAR_LIGNE+1];
-	char * pch; 
-	pch = strtok (characters," ");
+list<string> Lcd::miseEnForme(string str){
+	list<string> res;
+	istringstream iss(str);
+	string ligne;
+	string mot; 
+	//pch = strtok (characters," ");
+	string pch;
 	int tailleTmp=0;
 	int tailleMot=0;
 	log("debut");
-	while (pch != NULL)
+	while (getline(iss,mot,' '))
 	{
 		
 		//cout << "mot : "<<pch<<endl;
-		tailleMot = strlen(pch); 
+		tailleMot = mot.size(); 
 		if(tailleTmp+tailleMot<NB_CHAR_LIGNE /*&& tailleMot<NB_CHAR_LIGNE*/){
 			//printf ("%s ",pch);
-			strcat(ligne," ");
-			strcat(ligne,pch);
+			//strcat(ligne," ");
+			//strcat(ligne,pch);
+			ligne += " " + pch;
 			tailleTmp+=tailleMot+1;	
 		}else if(tailleMot>NB_CHAR_LIGNE){
-			strcat(ligne," ");
+			//strcat(ligne," ");
+			ligne += " ";
 			for(int i=0 ; i<tailleMot; i++){
 				//printf("%c",pch[i]);
 				if(((tailleTmp+i+1)%NB_CHAR_LIGNE)==0){
 					//printf("#");
-					strcat(ligne,"\0");
+					//strcat(ligne,"\0");
 					res.push_back(ligne);
-					ligne[0]='\0';
+					ligne.clear();
 				}
-				char charTmp[2];
-				charTmp[0]=pch[i];
-				charTmp[1]='\0';
-				strcat(ligne,charTmp);
+				//char charTmp[2];
+				//charTmp[0]=pch[i];
+				//charTmp[1]='\0';
+				//strcat(ligne,charTmp);
+				ligne +=  pch[i];
 				//strcat(ligne,pch[i]);
 			}
 			
@@ -111,19 +116,22 @@ list<char*> Lcd::miseEnForme(string str){
 		}else{
 			while(tailleTmp < NB_CHAR_LIGNE ){
 				//printf(" ");
-				strcat(ligne,"=");
+				//strcat(ligne,"=");
+				ligne += " ";
 				tailleTmp++;
 			}
 			//printf("\n");
-			strcat(ligne,"\0");
+			//strcat(ligne,"\0");
 			res.push_back(ligne);
-			ligne[0]='\0';
+			ligne.clear();
 			//printf("%s ",pch);
-			strcat(ligne," ");
-			strcat(ligne,pch);
+			//strcat(ligne," ");
+			//strcat(ligne,pch);
+			ligne += " " + pch;
 			tailleTmp=tailleMot+1;
 		}
-		pch = strtok (NULL, " ,.-");
+
+		//pch = strtok (NULL, " ,.-");
 	}
 
 

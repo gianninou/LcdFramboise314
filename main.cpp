@@ -13,7 +13,7 @@ int main (int argc, char** argv){
 	char path[256];
 	char* filePath;
 
-	list<char*> resultat;
+	list<string> resultat;
 
 	#ifndef PC
 	if(wiringPiSetup() == -1){

@@ -14,6 +14,7 @@
 #include <limits> 
 #include <vector>
 #include <list>
+#include <sstream>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ class Lcd {
 		char* appelSystem(char* cmd,char *name="",bool rewrite=true);
 
 		
-		list<char*> miseEnForme(char *characters);
+		list<string> miseEnForme(string str);
 	private:
 		void Write(uint8_t dc, uint8_t data);
 		void Character(char character);
