@@ -9,9 +9,7 @@ int main (int argc, char** argv){
 		
 	char os[20];
 	char hostname[256];
-	char cmd[256];
-	char path[256];
-	char* filePath;
+	string cmd,path,filePath;
 
 	list<string> resultat;
 
@@ -50,16 +48,17 @@ int main (int argc, char** argv){
 		switch(choix){
 			case 'r':
 				cout << "Entrer une commande" << endl;
-				cin.getline(cmd,256);
+				cin >> cmd;
 				cout << "Entrer un nom de fichier" << endl;
-				cin.getline(path,256);
+				cin >> path;
 				filePath = lcd.appelSystem(cmd,path);
 				cout << filePath;
-				f = fopen(filePath,"r");
+				f = fopen(filePath.c_str(),"r");
 
 				break;
 			case 'i':
-				f = popen("/sbin/ifconfig wlan0 | awk '/inet / {print $2}' | cut -d ':' -f2", "r");
+				//f = popen("/sbin/ifconfig wlan0 | awk '/inet / {print $2}' | cut -d ':' -f2", "r");
+				f = popen("pwd", "r");
 				while (!feof(f)) {
 				  	fread(os, 1, 20, f);
 				}
@@ -83,13 +82,15 @@ int main (int argc, char** argv){
 				lcd.afficheText();
 				break;
 			case 't':
-				lcd.setText(const_cast<char*>(str.c_str()));
-				resultat = lcd.miseEnForme(const_cast<char*>(str.c_str()));
+				lcd.setText(str);
+
+				resultat = lcd.miseEnForme(str);
+				lcd.log("bouhh");
 				lcd.afficheList(resultat);
-				while (!resultat.empty()){
+				/*while (!resultat.empty()){
 					cout  << resultat.front() << endl;
 					resultat.pop_front();
-				}
+				}*/
 				//lcd.afficheText();
 				break;	
 			case 'l':

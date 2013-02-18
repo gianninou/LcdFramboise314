@@ -46,17 +46,17 @@ class Lcd {
 
 	private:
 		//attributs 
-		char *texte;
+		string texte;
 		bool led;
 	public:
 		//constructeur
 		Lcd();
 
 		//getters
-		char* getText();
+		string getText();
 
 		//setters
-		void setText(char txt[NB_CHAR+1]);
+		void setText(string txt);
 
 		//affichage
 		void afficheText();
@@ -72,7 +72,7 @@ class Lcd {
 		void Clear(void);
 		void Initialise(void);
 
-		char* appelSystem(char* cmd,char *name="",bool rewrite=true);
+		string appelSystem(string cmd,string name="",bool rewrite=true);
 
 		list<string> miseEnForme(string str);
 		void afficheList(list<string> list);

@@ -4,7 +4,7 @@
 
 //Constructeur
 Lcd::Lcd(){
-	texte= new char[NB_CHAR+1];
+	texte= "";
 	led = false;
 }
 
@@ -21,7 +21,7 @@ void Lcd::Write(uint8_t dc, uint8_t data){
   	digitalWrite(PIN_SCE, HIGH);
 }
 
-
+#ifndef PC
 void Lcd::Character(char character){
   	Write(LCD_D, 0x00);
   	for (int index = 0; index < 5; index++){
@@ -29,6 +29,11 @@ void Lcd::Character(char character){
   	}
   	Write(LCD_D, 0x00);
 }
+#else
+void Lcd::Character(char character){
+  	cout << character;
+}
+#endif
 
 void Lcd::Clear(void){
   	for (int index = 0; index <LCD_X * LCD_Y / 8; index++){
@@ -56,19 +61,11 @@ void Lcd::Initialise(void){
   	Write(LCD_C, 0x0C );
 }
 
-#ifndef PC
 void Lcd::String(char *characters){
   	while (*characters){
     	Character(*characters++);
   	}
 }
-#else
-void Lcd::String(char *characters){
-  	while (*characters){
-    	Character(*characters++);
-  	}
-}
-#endif
 
 void Lcd::String(string txt){
 	for(unsigned int i=0;i<txt.size();i++){
@@ -77,6 +74,8 @@ void Lcd::String(string txt){
 }
 
 void Lcd::afficheList(list<string> list){
+
+	
 	string texte="";
 	for(int i=0;i<NB_LIGNE;i++){
 		texte += (string)list.front();
@@ -161,11 +160,11 @@ list<string> Lcd::miseEnForme(string str){
 }
 
 
-void Lcd::setText(char txt[]){
+void Lcd::setText(string txt){
 	texte=txt;
 }
 
-char* Lcd::getText(){
+string Lcd::getText(){
 	return texte;
 }
 
@@ -199,33 +198,37 @@ void Lcd::scheduler_standard() {
 }
 
 
-char* Lcd::appelSystem(char* cmd,char * name,bool rewrite){
-	char commande[500];
-	strcpy(commande,cmd);
-	char *newName=new char[256];
-	if(strlen(name)==0){
+string Lcd::appelSystem(string cmd,string name,bool rewrite){
+	string commande=cmd;
+	string newName;
+	if(name.size()==0){
 		log("edition du nom");
 	    //récuperation du nom de la commande
-		char *commande = strtok(cmd," ");
+		
+		//char *commande = strtok(cmd," ");
+		istringstream iss(cmd);
+		getline(iss,commande,' ');
 		//construction du chemin pour le fichier
 		//strcpy(newName,"cmd/");
-		strcat(newName,commande);
-		//strcat(newName,".rescmd");
+		newName+=commande;
+		//strcat(newName,"rescmd");
 	}else{
 		log("copy du nom");
-		strcpy(newName,name);
+		newName+=name;
+
 	}
 
-	if(fopen(newName,"r") && !rewrite){
+	if(fopen(newName.c_str(),"r") && !rewrite){
 		log("NULL");
-		newName=NULL;
+		newName.clear();
 	}else{
 		log("PAS NULL");
 		//envoie de la commande dans le path
-		strcat(commande," > cmd/");
-		strcat(commande,newName);
+		//strcat(commande," > cmd/");
+		//strcat(commande,newName);
+		commande+=(" > cmd/"+newName);
 		//execution de la commande
-		system(commande);
+		system(commande.c_str());
 
 	}
 	cout << "fin appelSystem" << endl;
